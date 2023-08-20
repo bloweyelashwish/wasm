@@ -1,17 +1,30 @@
 <!-- index.html -->
 <!DOCTYPE html>
 <html>
-
 <body>
-  <div id="main"></div>
-  <script src=/js/loader.js></script>
+  <div id="main">
+    <p>Minus one: <span class="minus-one"></span></p>
+    <p>Fizzbuzz of 3: <span class="fizzbuzz"></span></p>
+    <p>From memory: <span class="memory"></span></p>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@assemblyscript/loader/umd/index.js"></script>
+  <script src="/js/loader.js"></script>
   <script>
     const WL = new WasmLoader();
     WL.wasm('/build/release.wasm')
       .then(instance => {
-        const { minusOne } = instance;
+        // const { minusOne, fizzbuzz, __getString } = instance;
+        
+        // const minusOneRes = document.querySelector('.minus-one');
+        // const fizzBuzzRes = document.querySelector('.fizzbuzz');
+        const readMemoryRes = document.querySelector('.memory');
 
-        document.write(minusOne(2));
+        // minusOne.innerText = minusOne(100);
+        // fizzBuzzRes.innerText = __getString(fizzbuzz(3));
+
+        const { memory, readMemory } = instance;
+        const memoryArr = new Uint8Array(memory.buffer);
+        readMemoryRes.innerText = memoryArr[1];
       });
   </script>
 </body>
